@@ -11,10 +11,20 @@ function resolveChunks(chunks = {}, order = []) {
   forEach(order, function (name) {
     const chunk = toArray(chunks[name]);
     chunk.forEach(c => {
-      if (c.endsWith('.js')) {
-        js.push(`<script src="/${c}"></script>`);
-      } else if (c.endsWith('.css')) {
-        css.push(`<link rel="stylesheet" href="/${c}" />`);
+      if (isArray(c)) {
+        c.forEach(cc => {
+          if (cc.endsWith('.js')) {
+            js.push(`<script src="/${cc}"></script>`);
+          } else if (cc.endsWith('.css')) {
+            css.push(`<link rel="stylesheet" href="/${cc}" />`);
+          }
+        });
+      } else {
+        if (c.endsWith('.js')) {
+          js.push(`<script src="/${c}"></script>`);
+        } else if (c.endsWith('.css')) {
+          css.push(`<link rel="stylesheet" href="/${c}" />`);
+        }
       }
     })
   });
